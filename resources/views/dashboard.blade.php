@@ -299,7 +299,7 @@
                     </svg>
                     Tickets non assignés
                 </h3>
-                <a href="#" style="font-size:13px;font-weight:600;color:#2563EB;text-decoration:none;">Voir tout →</a>
+                <a href="{{ route('tickets.index') }}" style="font-size:13px;font-weight:600;color:#2563EB;text-decoration:none;">Voir tout →</a>
             </div>
             <div style="overflow-x:auto;">
                 <table class="table-list">
@@ -388,7 +388,7 @@
                     @endforelse
                 </ul>
                 <div style="padding:12px 20px;background:#F9FAFB;border-top:1px solid #F3F4F6;text-align:center;">
-                    <a href="#" style="font-size:13px;font-weight:500;color:#4B5563;text-decoration:none;">Gérer les plannings →</a>
+                    <a href="{{ route('interventions.index') }}" style="font-size:13px;font-weight:500;color:#4B5563;text-decoration:none;">Gérer les plannings →</a>
                 </div>
             </div>
 
@@ -397,14 +397,14 @@
                 <div style="padding:24px;">
                     <h3 style="font-size:16px;font-weight:700;margin-bottom:16px;">Actions Rapides</h3>
                     <div style="display:grid;grid-template-columns:1fr;gap:12px;">
-                        <button style="width:100%;padding:12px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2);border-radius:10px;color:white;font-weight:600;text-align:left;display:flex;align-items:center;gap:10px;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+                        <a href="{{ route('devis.create') }}" style="width:100%;padding:12px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2);border-radius:10px;color:white;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:10px;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
                             <svg style="width:18px;height:18px;" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
                             Créer un Devis
-                        </button>
-                        <button style="width:100%;padding:12px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2);border-radius:10px;color:white;font-weight:600;text-align:left;display:flex;align-items:center;gap:10px;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+                        </a>
+                        <a href="{{ route('rapports.index') }}" style="width:100%;padding:12px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2);border-radius:10px;color:white;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:10px;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
                             <svg style="width:18px;height:18px;" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                             Générer un Rapport
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>

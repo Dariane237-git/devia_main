@@ -7,11 +7,15 @@ use Illuminate\Http\Request;
 class InterventionController extends Controller
 {
     /**
-     * Affiche la liste des ressources.
+     * Affiche la liste des interventions (Planning).
      */
     public function index()
     {
-        //
+        $interventions = \App\Models\Intervention::with(['devis.ticket.client.utilisateur', 'technicien.utilisateur'])
+            ->orderBy('date_debut', 'desc')
+            ->get();
+
+        return view('interventions.index', compact('interventions'));
     }
 
     /**

@@ -259,18 +259,25 @@
                 Tableau de bord
             </a>
 
-            <a href="#" class="nav-item">
+            <a href="{{ route('tickets.index') }}" class="nav-item {{ request()->routeIs('tickets.*') ? 'active' : '' }}">
                 <svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/>
                 </svg>
                 Tickets
             </a>
 
-            <a href="#" class="nav-item">
+            <a href="{{ route('devis.index') }}" class="nav-item {{ request()->routeIs('devis.*') ? 'active' : '' }}">
                 <svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                 </svg>
-                Devis & Factures
+                Devis
+            </a>
+
+            <a href="{{ route('factures.index') }}" class="nav-item {{ request()->routeIs('factures.*') ? 'active' : '' }}">
+                <svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+                </svg>
+                Factures
             </a>
 
             <a href="{{ route('users.index') }}" class="nav-item {{ request()->routeIs('users.*') ? 'active' : '' }}">
@@ -280,7 +287,7 @@
                 Utilisateurs
             </a>
             
-            <a href="#" class="nav-item">
+            <a href="{{ route('rapports.index') }}" class="nav-item {{ request()->routeIs('rapports.*') ? 'active' : '' }}">
                 <svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                 </svg>
@@ -349,15 +356,12 @@
                             </svg>
                             Mon Profil
                         </a>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit" class="dropdown-item" style="width:100%;border:none;background:none;cursor:pointer;color:#EF4444;border-top:1px solid #E5E7EB;">
-                                <svg style="width:16px;height:16px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
-                                </svg>
-                                Se déconnecter
-                            </button>
-                        </form>
+                        <button type="button" class="dropdown-item" style="width:100%;border:none;background:none;cursor:pointer;color:#EF4444;border-top:1px solid #E5E7EB;" @click="$dispatch('open-logout-modal'); userMenuOpen = false">
+                            <svg style="width:16px;height:16px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+                            </svg>
+                            Se déconnecter
+                        </button>
                     </div>
                 </div>
             </div>
@@ -367,6 +371,48 @@
         <main class="content-area">
             {{ $slot }}
         </main>
+    </div>
+
+    <!-- MODALE DE CONFIRMATION DE DÉCONNEXION -->
+    <div x-data="{ showLogoutModal: false }" @open-logout-modal.window="showLogoutModal = true">
+        <!-- Overlay -->
+        <div x-show="showLogoutModal" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+            style="position:fixed;inset:0;background:rgba(17,24,39,0.5);backdrop-filter:blur(4px);z-index:100;display:flex;align-items:center;justify-content:center;"
+            @click.self="showLogoutModal = false"
+            x-cloak>
+
+            <!-- Boîte modale -->
+            <div x-show="showLogoutModal" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
+                style="background:white;border-radius:16px;padding:32px;max-width:400px;width:90%;box-shadow:0 25px 50px -12px rgba(0,0,0,0.25);text-align:center;">
+
+                <!-- Icône d'avertissement -->
+                <div style="width:56px;height:56px;background:#FEF2F2;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
+                    <svg style="width:28px;height:28px;color:#EF4444;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+                    </svg>
+                </div>
+
+                <h3 style="font-size:18px;font-weight:700;color:#111827;margin-bottom:8px;">Confirmation de déconnexion</h3>
+                <p style="font-size:14px;color:#6B7280;margin-bottom:24px;line-height:1.5;">Êtes-vous sûr(e) de vouloir vous déconnecter ?<br>Votre session sera fermée.</p>
+
+                <!-- Boutons -->
+                <div style="display:flex;gap:12px;justify-content:center;">
+                    <button type="button" @click="showLogoutModal = false"
+                        style="flex:1;padding:10px 20px;background:#F3F4F6;border:1px solid #D1D5DB;border-radius:10px;font-size:14px;font-weight:600;color:#374151;cursor:pointer;transition:all 0.2s;"
+                        onmouseover="this.style.background='#E5E7EB'" onmouseout="this.style.background='#F3F4F6'">
+                        Annuler
+                    </button>
+                    <form method="POST" action="{{ route('logout') }}" style="flex:1;">
+                        @csrf
+                        <button type="submit"
+                            style="width:100%;padding:10px 20px;background:#EF4444;border:none;border-radius:10px;font-size:14px;font-weight:600;color:white;cursor:pointer;transition:all 0.2s;"
+                            onmouseover="this.style.background='#DC2626'" onmouseout="this.style.background='#EF4444'">
+                            Oui, se déconnecter
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
 </body>

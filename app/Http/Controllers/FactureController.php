@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Facture;
 use Illuminate\Http\Request;
 
 class FactureController extends Controller
 {
     /**
-     * Affiche la liste des ressources.
+     * Affiche la liste des factures.
      */
     public function index()
     {
-        //
+        $factures = Facture::with(['devis.ticket.client.utilisateur'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('factures.index', compact('factures'));
     }
 
     /**
