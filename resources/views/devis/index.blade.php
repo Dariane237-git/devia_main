@@ -80,6 +80,15 @@
                         <a href="{{ route('devis.show', $d->id) }}" class="action-link" title="Voir le détail">
                             <svg style="width:18px;height:18px;" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                         </a>
+                        @if($d->statut == 'Accepté')
+                            @if(!$d->intervention)
+                                <a href="{{ route('interventions.create', ['devis' => $d->id]) }}" class="badge badge-green" style="text-decoration:none; padding: 6px 12px; font-weight:700;">
+                                    👉 Assigner un Technicien
+                                </a>
+                            @else
+                                <span style="font-size:12px; color:#10B981; font-weight:600;">Intervention Planifiée</span>
+                            @endif
+                        @endif
                     </td>
                 </tr>
                 @empty

@@ -12,9 +12,64 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
+                    @if(Auth::check() && Auth::user()->id_role == 1)
+                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            {{ __('Mon Espace') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('client.tickets.index')" :active="request()->routeIs('client.tickets.*')">
+                            {{ __('Mes Tickets') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('client.devis.index')" :active="request()->routeIs('client.devis.*')">
+                            {{ __('Mes Devis') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('client.materiels')" :active="request()->routeIs('client.materiels')">
+                            {{ __('Mes Matériels') }}
+                        </x-nav-link>
+                    @elseif(Auth::check() && Auth::user()->id_role == 2)
+                        <!-- Navigation Agent d'Accueil -->
+                        <x-nav-link :href="route('agent_accueil.dashboard')" :active="request()->routeIs('agent_accueil.dashboard')">
+                            {{ __('Accueil') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('agent_accueil.tickets.index')" :active="request()->routeIs('agent_accueil.tickets.*')">
+                            {{ __('Réceptions') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
+                            {{ __('Clients') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('materiels.index')" :active="request()->routeIs('materiels.*')">
+                            {{ __('Matériels') }}
+                        </x-nav-link>
+                    @elseif(Auth::check() && Auth::user()->id_role == 4)
+                        <x-nav-link :href="route('technicien.dashboard')" :active="request()->routeIs('technicien.dashboard')">
+                            {{ __('Mon Espace') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('technicien.interventions.index')" :active="request()->routeIs('technicien.interventions.*')">
+                            {{ __('Mes Interventions') }}
+                        </x-nav-link>
+                    @else
+                        <!-- Navigation Responsable / Admin -->
+                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            {{ __('Dashboard') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
+                            {{ __('Clients & Utilisateurs') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('materiels.index')" :active="request()->routeIs('materiels.*')">
+                            {{ __('Matériels') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('tickets.index')" :active="request()->routeIs('tickets.*')">
+                            {{ __('Tickets') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('devis.index')" :active="request()->routeIs('devis.*')">
+                            {{ __('Devis') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('interventions.index')" :active="request()->routeIs('interventions.*')">
+                            {{ __('Interventions') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('factures.index')" :active="request()->routeIs('factures.*')">
+                            {{ __('Facturations') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -67,9 +122,35 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
+            @if(Auth::check() && Auth::user()->id_role == 1)
+                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    {{ __('Mon Espace') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('client.tickets.index')" :active="request()->routeIs('client.tickets.*')">
+                    {{ __('Mes Tickets') }}
+                </x-responsive-nav-link>
+            @elseif(Auth::check() && Auth::user()->id_role == 2)
+                <x-responsive-nav-link :href="route('agent_accueil.dashboard')" :active="request()->routeIs('agent_accueil.dashboard')">
+                    {{ __('Accueil') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('agent_accueil.tickets.index')" :active="request()->routeIs('agent_accueil.tickets.*')">
+                    {{ __('Réceptions') }}
+                </x-responsive-nav-link>
+            @elseif(Auth::check() && Auth::user()->id_role == 4)
+                <x-responsive-nav-link :href="route('technicien.dashboard')" :active="request()->routeIs('technicien.dashboard')">
+                    {{ __('Mon Espace') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('technicien.interventions.index')" :active="request()->routeIs('technicien.interventions.*')">
+                    {{ __('Mes Interventions') }}
+                </x-responsive-nav-link>
+            @else
+                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    {{ __('Dashboard') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('tickets.index')" :active="request()->routeIs('tickets.*')">
+                    {{ __('Tickets') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

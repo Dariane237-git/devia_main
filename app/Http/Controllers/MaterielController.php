@@ -2,63 +2,85 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Materiel;
+use App\Models\Client;
 use Illuminate\Http\Request;
 
 class MaterielController extends Controller
 {
     /**
-     * Affiche la liste des ressources.
+     * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        // Récupérer tous les matériels avec le client associé
+        $materiels = Materiel::with('client.utilisateur')->orderBy('created_at', 'desc')->get();
+        return view('materiels.index', compact('materiels'));
     }
 
     /**
-     * Affiche le formulaire de création d'une nouvelle ressource.
+     * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        // Récupérer tous les clients pour le menu déroulant
+        $clients = Client::with('utilisateur')->get();
+        return view('materiels.create', compact('clients'));
     }
 
     /**
-     * Enregistre une nouvelle ressource dans la base de données.
+     * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'id_client' => 'required|exists:clients,id',
+            'nom' => 'required|string|max:255',
+            'marque' => 'nullable|string|max:255',
+            'modele' => 'nullable|string|max:255',
+            'date_achat' => 'nullable|date',
+            'garantie' => 'nullable|string|max:255',
+        ]);
+
+        Materiel::create($request->all());
+
+        return redirect()->route('materiels.index')->with('success', 'Le matériel a été enregistré avec succès.');
     }
 
     /**
-     * Affiche les détails d'une ressource spécifique.
+     * Show the form for editing the specified resource.
      */
-    public function show(string $id)
+    public function edit(Materiel $materiel)
     {
-        //
+        $clients = Client::with('utilisateur')->get();
+        return view('materiels.edit', compact('materiel', 'clients'));
     }
 
     /**
-     * Affiche le formulaire de modification d'une ressource spécifique.
+     * Update the specified resource in storage.
      */
-    public function edit(string $id)
+    public function update(Request $request, Materiel $materiel)
     {
-        //
+        $request->validate([
+            'id_client' => 'required|exists:clients,id',
+            'nom' => 'required|string|max:255',
+            'marque' => 'nullable|string|max:255',
+            'modele' => 'nullable|string|max:255',
+            'date_achat' => 'nullable|date',
+            'garantie' => 'nullable|string|max:255',
+        ]);
+
+        $materiel->update($request->all());
+
+        return redirect()->route('materiels.index')->with('success', 'Le matériel a été mis à jour.');
     }
 
     /**
-     * Met à jour la ressource spécifique dans la base de données.
+     * Remove the specified resource from storage.
      */
-    public function update(Request $request, string $id)
+    public function destroy(Materiel $materiel)
     {
-        //
-    }
-
-    /**
-     * Supprime la ressource spécifique de la base de données.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $materiel->delete();
+        return redirect()->route('materiels.index')->with('success', 'Le matériel a été supprimé.');
     }
 }

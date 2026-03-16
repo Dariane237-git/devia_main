@@ -115,32 +115,43 @@
     @endif
 
     @php
-        $roleFamilies = [
-            [
-                'title' => 'Direction & Responsables',
-                'description' => 'Gestionnaires de l\'application et superviseurs',
-                'items' => $users->where('id_role', 3),
-                'badge' => 'badge-manager'
-            ],
-            [
-                'title' => 'Agents d\'Accueil',
-                'description' => 'Première ligne de contact, réception de matériel',
-                'items' => $users->where('id_role', 2),
-                'badge' => 'badge-agent'
-            ],
-            [
-                'title' => 'Équipe Technique',
-                'description' => 'Techniciens chargés des interventions et réparations',
-                'items' => $users->where('id_role', 4),
-                'badge' => 'badge-tech'
-            ],
-            [
-                'title' => 'Clients',
-                'description' => 'Entreprises et particuliers bénéficiaires des services',
-                'items' => $users->where('id_role', 1),
-                'badge' => 'badge-client'
-            ]
-        ];
+        if (Auth::user()->id_role == 2) {
+            $roleFamilies = [
+                [
+                    'title' => 'Clients',
+                    'description' => 'Entreprises et particuliers bénéficiaires des services',
+                    'items' => $users->where('id_role', 1),
+                    'badge' => 'badge-client'
+                ]
+            ];
+        } else {
+            $roleFamilies = [
+                [
+                    'title' => 'Direction & Responsables',
+                    'description' => 'Gestionnaires de l\'application et superviseurs',
+                    'items' => $users->where('id_role', 3),
+                    'badge' => 'badge-manager'
+                ],
+                [
+                    'title' => 'Agents d\'Accueil',
+                    'description' => 'Première ligne de contact, réception de matériel',
+                    'items' => $users->where('id_role', 2),
+                    'badge' => 'badge-agent'
+                ],
+                [
+                    'title' => 'Équipe Technique',
+                    'description' => 'Techniciens chargés des interventions et réparations',
+                    'items' => $users->where('id_role', 4),
+                    'badge' => 'badge-tech'
+                ],
+                [
+                    'title' => 'Clients',
+                    'description' => 'Entreprises et particuliers bénéficiaires des services',
+                    'items' => $users->where('id_role', 1),
+                    'badge' => 'badge-client'
+                ]
+            ];
+        }
     @endphp
 
     @foreach($roleFamilies as $family)

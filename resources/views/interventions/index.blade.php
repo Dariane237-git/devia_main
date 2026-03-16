@@ -19,9 +19,9 @@
             <h2 style="font-size: 24px; font-weight: 800; color: #111827;">Planning & Interventions</h2>
             <p style="color: #6B7280; font-size: 14px;">Suivez le déroulement des réparations sur le terrain.</p>
         </div>
-        <button class="btn-primary-sm" style="padding: 10px 20px; background: #2563EB; color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer;">
+        <a href="{{ route('interventions.create') }}" style="padding: 10px 20px; background: #2563EB; color: white; border-radius: 10px; font-weight: 600; text-decoration: none; cursor: pointer;">
             Nouvelle Intervention
-        </button>
+        </a>
     </div>
 
     <div class="planning-container">

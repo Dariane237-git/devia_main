@@ -26,6 +26,15 @@ class Intervention extends Model
     }
 
     /**
+     * Accès direct au ticket via le devis.
+     */
+    public function ticket()
+    {
+        // On récupère le ticket via le devis associé
+        return $this->devis->ticket();
+    }
+
+    /**
      * Les pièces réellement utilisées lors de l'intervention (Relation Plusieurs-à-Plusieurs).
      */
     public function pieces()

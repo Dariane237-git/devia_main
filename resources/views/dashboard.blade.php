@@ -320,7 +320,7 @@
                                 <div style="font-weight:600;color:#111827;">
                                     {{ $ticket->client->utilisateur->prenom ?? '' }} {{ $ticket->client->utilisateur->nom ?? 'Client Inconnu' }}
                                 </div>
-                                <div style="font-size:12px;color:#6B7280;">{{ $ticket->materiel->nom_mat ?? 'Matériel non spécifié' }}</div>
+                                <div style="font-size:12px;color:#6B7280;">{{ $ticket->materiel->nom ?? 'Matériel non spécifié' }}</div>
                             </td>
                             <td>{{ \Illuminate\Support\Str::limit($ticket->description_panne, 40) }}</td>
                             <td>

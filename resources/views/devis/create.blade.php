@@ -44,7 +44,7 @@
                     <option value="" disabled selected>Choisir un ticket en attente...</option>
                     @foreach($tickets as $ticket)
                         <option value="{{ $ticket->id }}">
-                            #TKT-{{ str_pad($ticket->id, 4, '0', STR_PAD_LEFT) }} - {{ $ticket->client->utilisateur->prenom ?? '' }} {{ $ticket->client->utilisateur->nom ?? '' }} ({{ $ticket->materiel->nom_mat ?? 'Matériel inconnu' }})
+                            #TKT-{{ str_pad($ticket->id, 4, '0', STR_PAD_LEFT) }} - {{ $ticket->client->utilisateur->prenom ?? '' }} {{ $ticket->client->utilisateur->nom ?? '' }} ({{ $ticket->materiel->nom ?? 'Matériel inconnu' }})
                         </option>
                     @endforeach
                 </select>

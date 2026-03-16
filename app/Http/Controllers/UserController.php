@@ -9,6 +9,7 @@ use App\Models\Technicien;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -17,8 +18,17 @@ class UserController extends Controller
      */
     public function index()
     {
-        // On récupère tous les utilisateurs avec leur rôle
-        $users = Utilisateur::with('role')->get();
+        $currentUser = Auth::user();
+
+        // Si l'utilisateur connecté est un Agent d'Accueil (Rôle 2)
+        if ($currentUser && $currentUser->id_role == 2) {
+            // L'agent d'accueil ne voit que les clients (Rôle 1)
+            $users = Utilisateur::with('role')->where('id_role', 1)->get();
+        } else {
+            // Le responsable (et les autres admins) voient tout le monde
+            $users = Utilisateur::with('role')->get();
+        }
+
         return view('users.index', compact('users'));
     }
 
