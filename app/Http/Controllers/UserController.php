@@ -22,8 +22,8 @@ class UserController extends Controller
 
         // Si l'utilisateur connecté est un Agent d'Accueil (Rôle 2)
         if ($currentUser && $currentUser->id_role == 2) {
-            // L'agent d'accueil ne voit que les clients (Rôle 1)
-            $users = Utilisateur::with('role')->where('id_role', 1)->get();
+            // L'agent d'accueil ne voit que les clients (Rôle 3)
+            $users = Utilisateur::with('role')->where('id_role', 3)->get();
         } else {
             // Le responsable (et les autres admins) voient tout le monde
             $users = Utilisateur::with('role')->get();
@@ -54,8 +54,8 @@ class UserController extends Controller
             'tel'      => ['nullable', 'string', 'max:20'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'id_role'  => ['required', 'exists:roles,id'],
-            // Champs spécifiques Client
-            'type_clt'    => ['nullable', 'string', 'in:Particulier,Entreprise', 'required_if:id_role,1'],
+            // Champs spécifiques Client (id_role = 3)
+            'type_clt'    => ['nullable', 'string', 'in:Particulier,Entreprise', 'required_if:id_role,3'],
             'adresse_clt' => ['nullable', 'string', 'max:255'],
             // Champs spécifiques Technicien
             'specialite' => ['nullable', 'string', 'max:150'],
@@ -71,8 +71,8 @@ class UserController extends Controller
             'id_role'      => $request->id_role,
         ]);
 
-        // Si c'est un Client (id_role = 1)
-        if ($request->id_role == 1) {
+        // Si c'est un Client (id_role = 3)
+        if ($request->id_role == 3) {
             Client::create([
                 'user_id'     => $user->id,
                 'type_clt'    => $request->type_clt,
@@ -80,8 +80,8 @@ class UserController extends Controller
             ]);
         }
         
-        // Si c'est un Technicien (id_role = 3)
-        if ($request->id_role == 3) {
+        // Si c'est un Technicien (id_role = 4)
+        if ($request->id_role == 4) {
             Technicien::create([
                 'user_id'     => $user->id,
                 'specialite'  => $request->specialite,
@@ -123,8 +123,8 @@ class UserController extends Controller
             'email'    => ['required', 'string', 'email', 'max:150', 'unique:utilisateurs,email,' . $user->id],
             'tel'      => ['nullable', 'string', 'max:20'],
             'id_role'  => ['required', 'exists:roles,id'],
-            // Champs spécifiques Client
-            'type_clt'    => ['nullable', 'string', 'in:Particulier,Entreprise', 'required_if:id_role,1'],
+            // Champs spécifiques Client (id_role = 3)
+            'type_clt'    => ['nullable', 'string', 'in:Particulier,Entreprise', 'required_if:id_role,3'],
             'adresse_clt' => ['nullable', 'string', 'max:255'],
             // Champs spécifiques Technicien
             'specialite' => ['nullable', 'string', 'max:150'],
@@ -146,12 +146,12 @@ class UserController extends Controller
 
         // --- Synchronisation Profils ---
         
-        // Si ancien rôle était Client (1) et nouveau rôle est différent, on supprime le profil Client
-        if ($user->id_role != 1 && $user->client) {
+        // Si ancien rôle était Client (3) et nouveau rôle est différent, on supprime le profil Client
+        if ($user->id_role != 3 && $user->client) {
             $user->client()->delete();
         }
-        // Si nouveau rôle est Client (1)
-        if ($request->id_role == 1) {
+        // Si nouveau rôle est Client (3)
+        if ($request->id_role == 3) {
             Client::updateOrCreate(
                 ['user_id' => $user->id],
                 ['type_clt' => $request->type_clt, 'adresse_clt' => $request->adresse_clt]

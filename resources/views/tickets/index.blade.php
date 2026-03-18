@@ -97,7 +97,7 @@
                             <a href="{{ route('tickets.show', $ticket->id) }}" class="action-link" title="Voir le détail">
                                 <svg style="width:18px;height:18px;" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                             </a>
-                            @if($ticket->statut == 'Nouveau')
+                            @if(in_array($ticket->statut, ['Nouveau', 'En attente de validation client']))
                             <div x-data="{ openAssign: false }" style="position:relative;">
                                 <button @click="openAssign = !openAssign" class="btn-assign" title="Assigner">
                                     <svg style="width:14px;height:14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>

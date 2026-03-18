@@ -26,17 +26,17 @@ class TechnicienDashboardController extends Controller
         // Statistiques
         $stats = [
             'interventions_en_cours' => Intervention::where('id_tech', $technicien->id)
-                                        ->where('statut', 'En cours')
+                                        ->whereIn('statut', ['En cours', 'Planifiée'])
                                         ->count(),
             'interventions_terminees' => Intervention::where('id_tech', $technicien->id)
                                         ->where('statut', 'Terminé')
                                         ->count(),
         ];
 
-        // Dernières interventions en cours (max 5)
+        // Dernières interventions à traiter (max 5)
         $recentesInterventions = Intervention::with(['devis.ticket.client.utilisateur', 'devis.ticket.materiel'])
             ->where('id_tech', $technicien->id)
-            ->where('statut', 'En cours')
+            ->whereIn('statut', ['En cours', 'Planifiée'])
             ->orderBy('created_at', 'desc')
             ->take(5)
             ->get();
