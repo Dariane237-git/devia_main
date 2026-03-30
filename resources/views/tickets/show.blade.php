@@ -97,7 +97,7 @@
                     </span>
                 </div>
                 <div class="card-body">
-                    <div class="grid-container" style="grid-template-columns: 1fr 1fr; gap:16px;">
+                    <div class="grid-container" style="grid-template-columns: 1fr 1fr; gap:16px; margin-bottom: 16px;">
                         <div class="info-group">
                             <span class="info-label">Montant Estimé</span>
                             <span class="info-value" style="font-size:18px; font-weight:700; color:#111827;">{{ number_format($ticket->devis->mont_estimer, 0, ',', ' ') }} FCFA</span>
@@ -107,6 +107,15 @@
                             <span class="info-value">{{ $ticket->devis->created_at->format('d/m/Y') }}</span>
                         </div>
                     </div>
+                    
+                    @if(Auth::user()->id_role == 3 && $ticket->devis->statut == 'Validé')
+                    <!-- Le responsable peut générer la facture finale si le devis est validé -->
+                    <div style="border-top:1px solid #E5E7EB; padding-top:16px;">
+                        <a href="{{ route('factures.create_from_devis', $ticket->devis->id) }}" style="display:inline-block; padding:10px 20px; background:linear-gradient(135deg, #10B981, #059669); color:white; border-radius:10px; font-weight:600; text-decoration:none; font-size:14px; box-shadow:0 2px 4px rgba(16,185,129,0.2);">
+                            Générer la Facture Finale
+                        </a>
+                    </div>
+                    @endif
                 </div>
             </div>
             @endif

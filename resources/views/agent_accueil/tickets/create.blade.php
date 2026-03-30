@@ -33,7 +33,7 @@
                     
                     <div class="form-group col-span-2">
                         <label class="form-label">Client <span style="color:#EF4444;">*</span></label>
-                        <select name="id_client" id="client_select" class="form-select" required onchange="this.form.submit()" form="reload_form">
+                        <select name="id_client" id="client_select" class="form-select" required>
                             <option value="" disabled {{ !$selectedClientId ? 'selected' : '' }}>Sélectionnez le client qui se présente...</option>
                             @foreach($clients as $c)
                                 <option value="{{ $c->id }}" {{ $selectedClientId == $c->id ? 'selected' : '' }}>
@@ -47,11 +47,13 @@
 
                     <div class="form-group col-span-2">
                         <label class="form-label">Appareil concerné <span style="color:#EF4444;">*</span></label>
-                        <select name="id_mat" class="form-select" required>
-                            @if(count($materiels) == 0)
+                        <select name="id_mat" id="mat_select" class="form-select" required>
+                            @if(count($materiels) == 0 && !$selectedClientId)
                                 <option value="" disabled selected>Veuillez d'abord sélectionner un client avec des matériels enregistrés...</option>
+                            @elseif(count($materiels) == 0 && $selectedClientId)
+                                <option value="" disabled selected>Ce client n'a aucun appareil enregistré.</option>
                             @else
-                                <option value="" disabled selected>Choisir l'appareil en panne...</option>
+                                <option value="" disabled {{ !old('id_mat') ? 'selected' : '' }}>Choisir l'appareil en panne...</option>
                                 @foreach($materiels as $mat)
                                     <option value="{{ $mat->id }}" {{ old('id_mat') == $mat->id ? 'selected' : '' }}>
                                         {{ $mat->nom }} - {{ $mat->marque }} {{ $mat->modele }}
@@ -87,10 +89,46 @@
                 </div>
             </form>
 
-            <!-- Formulaire invisible pour le rechargement AJAX "low tech" -->
-            <form id="reload_form" action="{{ route('agent_accueil.tickets.create') }}" method="GET">
-            </form>
-
+            <!-- Le script JS gère maintenant le chargement dynamique -->
+            
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const clientSelect = document.getElementById('client_select');
+            const matSelect = document.getElementById('mat_select');
+
+            clientSelect.addEventListener('change', function() {
+                const clientId = this.value;
+                if (!clientId) return;
+
+                // Afficher un état de chargement
+                matSelect.innerHTML = '<option value="" disabled selected>Chargement des appareils...</option>';
+
+                fetch(`/api/materiels/client/${clientId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        matSelect.innerHTML = ''; // Vider le select
+                        
+                        if (data.length === 0) {
+                            matSelect.innerHTML = '<option value="" disabled selected>Ce client n\'a aucun appareil enregistré.</option>';
+                            return;
+                        }
+
+                        matSelect.innerHTML = '<option value="" disabled selected>Choisir l\'appareil en panne...</option>';
+                        data.forEach(mat => {
+                            const option = document.createElement('option');
+                            option.value = mat.id;
+                            option.textContent = `${mat.nom} - ${mat.marque || ''} ${mat.modele || ''}`;
+                            matSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors du chargement des matériels:', error);
+                        matSelect.innerHTML = '<option value="" disabled selected>Erreur de chargement des matériels.</option>';
+                    });
+            });
+        });
+    </script>
 </x-app-layout>

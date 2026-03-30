@@ -5,8 +5,9 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                    <a href="{{ route('dashboard') }}" style="display:flex; align-items:center; background:#0A0A0A; border-radius:10px; padding:4px 12px; text-decoration:none; gap:10px;">
+                        <img src="{{ asset('images/fixflow_logo.png') }}" alt="Logo" style="height: 36px; width: auto; object-fit: contain;">
+                        <span style="font-size:18px;font-weight:800;color:white;letter-spacing:-0.5px;">Fix<span style="color:#06B6D4;">Flow</span></span>
                     </a>
                 </div>
 
@@ -21,6 +22,9 @@
                         </x-nav-link>
                         <x-nav-link :href="route('client.devis.index')" :active="request()->routeIs('client.devis.*')">
                             {{ __('Mes Devis') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('client.factures.index')" :active="request()->routeIs('client.factures.*')">
+                            {{ __('Mes Factures') }}
                         </x-nav-link>
                         <x-nav-link :href="route('client.materiels')" :active="request()->routeIs('client.materiels')">
                             {{ __('Mes Matériels') }}
@@ -128,6 +132,9 @@
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('client.tickets.index')" :active="request()->routeIs('client.tickets.*')">
                     {{ __('Mes Tickets') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('client.factures.index')" :active="request()->routeIs('client.factures.*')">
+                    {{ __('Mes Factures') }}
                 </x-responsive-nav-link>
             @elseif(Auth::check() && Auth::user()->id_role == 2)
                 <x-responsive-nav-link :href="route('agent_accueil.dashboard')" :active="request()->routeIs('agent_accueil.dashboard')">

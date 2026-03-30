@@ -83,4 +83,13 @@ class MaterielController extends Controller
         $materiel->delete();
         return redirect()->route('materiels.index')->with('success', 'Le matériel a été supprimé.');
     }
+
+    /**
+     * Retourne les matériels d'un client au format JSON (pour formulaire AJAX).
+     */
+    public function getByClient($id_client)
+    {
+        $materiels = Materiel::where('id_client', $id_client)->get();
+        return response()->json($materiels);
+    }
 }

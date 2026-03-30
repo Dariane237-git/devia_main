@@ -96,19 +96,34 @@ class ClientDashboardController extends Controller
 
     /**
      * Refuser un devis (le client refuse).
+     * Déclenche la création automatique d'une facture de diagnostic.
      */
     public function refuserDevis($id)
     {
         $client = Auth::user()->client;
-        $devis = Devis::whereHas('ticket', function ($q) use ($client) {
+        $devis = Devis::with('ticket')->whereHas('ticket', function ($q) use ($client) {
             $q->where('id_client', $client->id);
         })->findOrFail($id);
 
+        // 1. Mettre à jour le statut du devis
         $devis->update(['statut' => 'Refusé']);
-        $devis->ticket->update(['statut' => 'Rejeté']);
+
+        // 2. Mettre à jour le statut du ticket
+        $devis->ticket->update(['statut' => 'Devis refusé']);
+
+        // 3. Créer automatiquement la facture de diagnostic
+        $frais = $devis->frais_diagnostic ?? 0;
+        \App\Models\Facture::create([
+            'numero_fac'       => 'DIAG-' . str_pad($devis->id, 5, '0', STR_PAD_LEFT) . '-' . date('Ymd'),
+            'date_emission'    => now(),
+            'mont_total'       => $frais,
+            'type_fac'         => 'Diagnostic',
+            'statut_paiement'  => 'En attente',
+            'id_devis'         => $devis->id,
+        ]);
 
         return redirect()->route('client.devis.index')
-            ->with('success', 'Le devis a été refusé.');
+            ->with('success', 'Le devis a été refusé. Une facture de diagnostic de ' . number_format($frais, 0, ',', ' ') . ' FCFA a été générée.');
     }
 
     /**
@@ -122,5 +137,39 @@ class ClientDashboardController extends Controller
             ->get();
 
         return view('client.materiels.index', compact('materiels'));
+    }
+
+    /**
+     * Affiche la liste des factures du client.
+     */
+    public function mesFactures()
+    {
+        $client = Auth::user()->client;
+        $factures = \App\Models\Facture::with(['devis.ticket.materiel'])
+            ->whereHas('devis.ticket', function ($q) use ($client) {
+                $q->where('id_client', $client->id);
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('client.factures.index', compact('factures'));
+    }
+
+    /**
+     * Simule le paiement en ligne d'une facture.
+     */
+    public function payerFacture($id)
+    {
+        $client = Auth::user()->client;
+        $facture = \App\Models\Facture::whereHas('devis.ticket', function ($q) use ($client) {
+            $q->where('id_client', $client->id);
+        })->findOrFail($id);
+
+        if ($facture->statut_paiement != 'Payée') {
+            $facture->update(['statut_paiement' => 'Payée']);
+            return redirect()->route('client.factures.index')->with('success', 'Le paiement de la facture ' . $facture->numero_fac . ' a été effectué avec succès.');
+        }
+
+        return redirect()->route('client.factures.index')->with('info', 'Cette facture est déjà payée.');
     }
 }

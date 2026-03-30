@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>DEVIA-MAINT - Gestion de Maintenance Informatique</title>
+        <title>FixFlow - Gestion de Maintenance Informatique</title>
         <meta name="description" content="Plateforme professionnelle de gestion de maintenance informatique.">
 
         <!-- Google Fonts : Inter -->
@@ -270,13 +270,9 @@
                 <div style="display:flex; align-items:center; justify-content:space-between; height:72px;">
 
                     <!-- Logo -->
-                    <a href="/" style="display:flex; align-items:center; gap:12px; text-decoration:none;">
-                        <div class="anim-glow" style="width:40px;height:40px;background:linear-gradient(135deg,#2563EB,#1D4ED8);border-radius:12px;display:flex;align-items:center;justify-content:center;">
-                            <svg style="width:22px;height:22px;color:white;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/>
-                            </svg>
-                        </div>
-                        <span style="font-size:20px;font-weight:800;color:#1E40AF;">DEVIA<span style="color:#059669;">-MAINT</span></span>
+                    <a href="/" style="display:flex; align-items:center; background:#0A0A0A; border-radius:10px; padding:4px 12px; text-decoration:none; gap:10px;">
+                        <img src="{{ asset('images/fixflow_logo.png') }}" alt="Logo" style="height: 38px; width: auto; object-fit: contain;">
+                        <span style="font-size:20px;font-weight:800;color:white;letter-spacing:-0.5px;">Fix<span style="color:#06B6D4;">Flow</span></span>
                     </a>
 
                     <!-- Links Desktop -->
@@ -506,7 +502,7 @@
                         Tout ce dont votre équipe a besoin
                     </h2>
                     <p style="font-size:17px;color:#6B7280;max-width:520px;margin:0 auto;line-height:1.6;">
-                        DEVIA-MAINT centralise tous vos outils de gestion en une seule plateforme intuitive.
+                        FixFlow centralise tous vos outils de gestion en une seule plateforme intuitive.
                     </p>
                 </div>
 
@@ -658,7 +654,7 @@
                     Prêt à moderniser votre gestion IT ?
                 </h2>
                 <p style="font-size:17px;color:rgba(255,255,255,0.8);margin-bottom:40px;line-height:1.6;">
-                    Rejoignez DEVIA-MAINT et simplifiez votre quotidien avec une plateforme conçue pour les équipes professionnelles.
+                    Rejoignez FixFlow et simplifiez votre quotidien avec une plateforme conçue pour les équipes professionnelles.
                 </p>
                 @guest
                 <a href="{{ route('login') }}"
@@ -681,13 +677,11 @@
             <div style="max-width:1200px;margin:0 auto;">
                 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px;margin-bottom:48px;">
                     <div>
-                        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
-                            <div style="width:36px;height:36px;background:#2563EB;border-radius:10px;display:flex;align-items:center;justify-content:center;">
-                                <svg style="width:18px;height:18px;color:white;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/>
-                                </svg>
-                            </div>
-                            <span style="font-size:18px;font-weight:800;color:white;">DEVIA<span style="color:#34D399;">-MAINT</span></span>
+                        <div style="display:flex;align-items:center;margin-bottom:16px;">
+                            <a href="/" style="display:flex; align-items:center; background:#0A0A0A; border-radius:10px; padding:4px 12px; text-decoration:none; gap:10px;">
+                                <img src="{{ asset('images/fixflow_logo.png') }}" alt="Logo" style="height: 38px; width: auto; object-fit: contain;">
+                                <span style="font-size:20px;font-weight:800;color:white;letter-spacing:-0.5px;">Fix<span style="color:#06B6D4;">Flow</span></span>
+                            </a>
                         </div>
                         <p style="font-size:14px;line-height:1.6;">Plateforme de gestion de maintenance informatique pour les équipes IT professionnelles.</p>
                     </div>
@@ -710,7 +704,7 @@
                     </div>
                 </div>
                 <div style="border-top:1px solid #1F2937;padding-top:24px;text-align:center;font-size:13px;">
-                    © {{ date('Y') }} DEVIA-MAINT — Projet BTS Gestion des Systèmes d'Information
+                    © {{ date('Y') }} FixFlow — Propriété de DEVIA TECHNOLOGY
                 </div>
             </div>
         </footer>

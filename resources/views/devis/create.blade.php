@@ -51,7 +51,7 @@
                 @error('id_ticket') <span style="color:#EF4444;font-size:12px;">{{ $message }}</span> @enderror
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
                 <div class="form-group">
                     <label class="form-label">Date du devis <span style="color:#EF4444;">*</span></label>
                     <input type="date" name="date_devis" class="form-input" value="{{ date('Y-m-d') }}" required>
@@ -61,6 +61,14 @@
                     <label class="form-label">Montant Estimé (FCFA) <span style="color:#EF4444;">*</span></label>
                     <input type="number" name="mont_estimer" class="form-input" placeholder="0" min="0" required>
                     @error('mont_estimer') <span style="color:#EF4444;font-size:12px;">{{ $message }}</span> @enderror
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Frais de Diagnostic (FCFA)
+                        <span style="font-size:11px;font-weight:400;color:#6B7280;"> — si refus</span>
+                    </label>
+                    <input type="number" name="frais_diagnostic" class="form-input" placeholder="0" min="0" value="{{ old('frais_diagnostic', 0) }}">
+                    <span style="font-size:11px;color:#6B7280;">Montant facturé si le client refuse ce devis.</span>
+                    @error('frais_diagnostic') <span style="color:#EF4444;font-size:12px;">{{ $message }}</span> @enderror
                 </div>
             </div>
 

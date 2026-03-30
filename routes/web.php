@@ -25,6 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('users', UserController::class);
     Route::resource('tickets', TicketController::class);
     Route::resource('devis', DevisController::class);
+    Route::get('/factures/devis/{id}', [FactureController::class, 'createFromDevis'])->name('factures.create_from_devis');
     Route::resource('factures', FactureController::class);
     Route::resource('interventions', InterventionController::class);
     Route::resource('materiels', MaterielController::class);
@@ -47,8 +48,16 @@ Route::middleware('auth')->group(function () {
         Route::get('/devis', [ClientDashboardController::class, 'mesDevis'])->name('client.devis.index');
         Route::post('/devis/{id}/valider', [ClientDashboardController::class, 'validerDevis'])->name('client.devis.valider');
         Route::post('/devis/{id}/refuser', [ClientDashboardController::class, 'refuserDevis'])->name('client.devis.refuser');
+        
+        Route::get('/factures', [ClientDashboardController::class, 'mesFactures'])->name('client.factures.index');
+        Route::post('/factures/{id}/payer', [ClientDashboardController::class, 'payerFacture'])->name('client.factures.payer');
+        
         Route::get('/materiels', [ClientDashboardController::class, 'mesMateriels'])->name('client.materiels');
     });
+
+    // ===== ROUTES PDF (Accessibles pour Client ET Responsable) =====
+    Route::get('/devis/{id}/pdf', [DevisController::class, 'downloadPdf'])->name('devis.pdf');
+    Route::get('/factures/{id}/pdf', [FactureController::class, 'downloadPdf'])->name('factures.pdf');
     // ===== ROUTES AGENT D'ACCUEIL =====
     Route::prefix('accueil')->name('agent_accueil.')->group(function () {
         Route::get('/tickets', [AgentTicketController::class, 'index'])->name('tickets.index');
@@ -77,6 +86,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/interventions/{id}/ajouter-piece', [TechnicienDashboardController::class, 'ajouterPiece'])->name('interventions.ajouter_piece');
         Route::delete('/interventions/{id}/retirer-piece/{piece_id}', [TechnicienDashboardController::class, 'retirerPiece'])->name('interventions.retirer_piece');
     });
+
+    // API Interne pour les formulaires AJAX
+    Route::get('/api/materiels/client/{id}', [MaterielController::class, 'getByClient'])->name('api.materiels.client');
 });
 
 require __DIR__.'/auth.php';

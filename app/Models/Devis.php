@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Devis extends Model
 {
     // Les attributs que l'on peut assigner en masse
-    protected $fillable = ['date_devis', 'statut', 'mont_estimer', 'id_ticket'];
+    protected $fillable = ['date_devis', 'statut', 'mont_estimer', 'frais_diagnostic', 'id_ticket'];
 
     /**
      * Ce devis est lié à un ticket spécifique.

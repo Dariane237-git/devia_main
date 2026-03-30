@@ -17,8 +17,9 @@
     <body class="font-sans text-gray-900 antialiased">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
             <div>
-                <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                <a href="/" style="display:flex; justify-content:center; align-items:center; background:#0A0A0A; border-radius:12px; padding:8px 16px; margin-bottom: 24px; gap:12px; text-decoration:none;">
+                    <img src="{{ asset('images/fixflow_logo.png') }}" alt="Logo" style="height: 50px; width: auto; object-fit: contain;">
+                    <span style="font-size:28px;font-weight:800;color:white;letter-spacing:-0.5px;">Fix<span style="color:#06B6D4;">Flow</span></span>
                 </a>
             </div>
 

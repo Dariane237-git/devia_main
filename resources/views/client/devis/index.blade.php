@@ -55,8 +55,12 @@
                         </div>
                     </div>
 
-                    @if($d->statut == 'En attente')
                     <div style="display:flex;gap:8px;align-items:center;">
+                        <a href="{{ route('devis.pdf', $d->id) }}" style="padding: 8px 16px; background: white; color: #374151; border: 1px solid #D1D5DB; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px; text-decoration: none;">
+                            📄 PDF
+                        </a>
+                        
+                        @if($d->statut == 'En attente')
                         <form action="{{ route('client.devis.valider', $d->id) }}" method="POST">
                             @csrf
                             <button type="submit" class="btn-accept">✅ Accepter</button>
@@ -65,8 +69,8 @@
                             @csrf
                             <button type="submit" class="btn-refuse">❌ Refuser</button>
                         </form>
+                        @endif
                     </div>
-                    @endif
                 </div>
             </li>
             @empty

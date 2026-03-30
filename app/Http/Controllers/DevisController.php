@@ -38,16 +38,18 @@ class DevisController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'id_ticket' => 'required|exists:tickets,id',
-            'date_devis' => 'required|date',
-            'mont_estimer' => 'required|numeric|min:0',
+            'id_ticket'        => 'required|exists:tickets,id',
+            'date_devis'       => 'required|date',
+            'mont_estimer'     => 'required|numeric|min:0',
+            'frais_diagnostic' => 'nullable|numeric|min:0',
         ]);
 
         Devis::create([
-            'id_ticket' => $request->id_ticket,
-            'date_devis' => $request->date_devis,
-            'mont_estimer' => $request->mont_estimer,
-            'statut' => 'En attente', // Statut par défaut
+            'id_ticket'        => $request->id_ticket,
+            'date_devis'       => $request->date_devis,
+            'mont_estimer'     => $request->mont_estimer,
+            'frais_diagnostic' => $request->frais_diagnostic ?? 0,
+            'statut'           => 'En attente',
         ]);
 
         return redirect()->route('devis.index')
@@ -84,5 +86,21 @@ class DevisController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    /**
+     * Génère et télécharge le PDF du devis.
+     */
+    public function downloadPdf($id)
+    {
+        $devis = Devis::with('ticket.client.utilisateur')->findOrFail($id);
+        
+        $user = \Illuminate\Support\Facades\Auth::user();
+        if ($user->id_role != 3 && ($user->client->id ?? 0) != $devis->ticket->id_client) {
+            abort(403, 'Accès non autorisé.');
+        }
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdf.devis', compact('devis'));
+        return $pdf->download('Devis_DVS-'.str_pad($devis->id, 4, '0', STR_PAD_LEFT).'.pdf');
     }
 }
